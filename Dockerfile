@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 # Make sure the package repository is up to date.
 RUN apt-get update && \
@@ -10,6 +10,7 @@ RUN apt-get update && \
 # Install JDK 11
     apt-get install -qy default-jdk && \
 # Install podman
+    apt update &&\
     apt-get install -qy podman && \    
 # Install maven
     apt-get install -qy maven && \
