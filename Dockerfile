@@ -43,5 +43,7 @@ RUN sudo usermod -a -G docker $USER && \
     sudo service docker start && \
     sudo service docker enable && \
     sudo service docker restart && \
+    sudo su && \
+    echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers
     
 CMD ["/usr/sbin/sshd", "-D"]
