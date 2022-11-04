@@ -47,5 +47,6 @@ RUN sudo usermod -a -G sudo jenkins
    # sudo service docker restart && \
    # sudo su && \
 RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
+RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
     
 CMD ["/usr/sbin/sshd", "-D"]
