@@ -15,8 +15,8 @@ RUN apt-get update && \
 # Install docker
     apt-get update &&\
     apt-get install -qy docker.io && \
-    systemctl start docker && \
-    systemctl enable docker && \
+    sudo service docker start  && \
+    sudo service docker enable && \
    # sudo groupadd docker && \
    # sudo usermod -aG docker $USER && \
    # docker --version && \
