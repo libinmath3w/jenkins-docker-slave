@@ -15,8 +15,6 @@ RUN apt-get update && \
 # Install docker
     apt-get update &&\
     apt-get install -qy docker.io && \
-    sudo service docker start  && \
-    sudo service docker enable && \
    # sudo groupadd docker && \
    # sudo usermod -aG docker $USER && \
    # docker --version && \
@@ -38,6 +36,9 @@ COPY .ssh/authorized_keys /home/jenkins/.ssh/authorized_keys
 RUN chown -R jenkins:jenkins /home/jenkins/.m2/ && \
     chown -R jenkins:jenkins /home/jenkins/.ssh/
 
+RUN sudo service docker start  && \
+    sudo service docker enable
+    
 # Standard SSH port
 EXPOSE 22
 
