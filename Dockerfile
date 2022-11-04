@@ -13,8 +13,9 @@ RUN apt-get update && \
     apt update &&\
     apt-get install -qy podman && \  
 # Install docker
-    apt update &&\
-    apt-get install -qy docker && \
+    apt-get update &&\
+    apt-get install -qy docker.io && \
+    docker --version && \
 # Install sudo
     apt-get install -qy sudo && \   
 # Install maven
