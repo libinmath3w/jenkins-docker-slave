@@ -24,29 +24,29 @@ RUN apt-get update && \
     apt-get install -qy maven && \
 # Cleanup old packages
     apt-get -qy autoremove && \
-# Add user jenkins to the image
-    adduser --quiet jenkins && \
-# Set password for the jenkins user (you may want to alter this).
-    echo "jenkins:MyPassword123" | chpasswd && \
-    mkdir /home/jenkins/.m2
+# Add user cspd to the image
+    adduser --quiet cspd && \
+# Set password for the cspd user (you may want to alter this).
+    echo "cspd:MyPassword123" | chpasswd && \
+    mkdir /home/cspd/.m2
 
 # Copy authorized keys
-COPY .ssh/authorized_keys /home/jenkins/.ssh/authorized_keys
+COPY .ssh/authorized_keys /home/cspd/.ssh/authorized_keys
 
-RUN chown -R jenkins:jenkins /home/jenkins/.m2/ && \
-    chown -R jenkins:jenkins /home/jenkins/.ssh/ 
+RUN chown -R cspd:cspd /home/cspd/.m2/ && \
+    chown -R cspd:cspd /home/cspd/.ssh/ 
     
 # Standard SSH port
 EXPOSE 22
 RUN echo $USER
 #RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER
-RUN sudo usermod -a -G docker jenkins
-RUN sudo usermod -a -G sudo jenkins
+RUN sudo usermod -a -G docker cspd
+RUN sudo usermod -a -G sudo cspd
     #sudo service docker start && \
     #sudo service docker enable && \
    # sudo service docker restart && \
    # sudo su && \
-RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
-RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN echo  "cspd   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
+RUN echo "cspd ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
     
 CMD ["/usr/sbin/sshd", "-D"]
