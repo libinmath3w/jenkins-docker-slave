@@ -38,7 +38,7 @@ RUN chown -R jenkins:jenkins /home/jenkins/.m2/ && \
     
 # Standard SSH port
 EXPOSE 22
-RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 jenkins 
+RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER 
 RUN sudo usermod -a -G docker $USER && \
     sudo service docker start && \
     sudo service docker enable && \
