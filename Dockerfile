@@ -40,7 +40,8 @@ RUN chown -R jenkins:jenkins /home/jenkins/.m2/ && \
 EXPOSE 22
 RUN echo $USER
 RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER
-#RUN sudo usermod -a -G docker $USER && \
+RUN sudo usermod -a -G docker jenkins
+RUN sudo usermod -a -G sudo jenkins
     #sudo service docker start && \
     #sudo service docker enable && \
    # sudo service docker restart && \
