@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-
+RUN echo $USER
 # Make sure the package repository is up to date.
 RUN apt-get update && \
     apt-get install -qy git && \
@@ -34,16 +34,17 @@ RUN apt-get update && \
 COPY .ssh/authorized_keys /home/jenkins/.ssh/authorized_keys
 
 RUN chown -R jenkins:jenkins /home/jenkins/.m2/ && \
-    chown -R jenkins:jenkins /home/jenkins/.ssh/
+    chown -R jenkins:jenkins /home/jenkins/.ssh/ 
     
 # Standard SSH port
 EXPOSE 22
-RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER 
-RUN sudo usermod -a -G docker $USER && \
-    sudo service docker start && \
-    sudo service docker enable && \
-    sudo service docker restart && \
-    sudo su && \
-    echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers
+RUN echo $USER
+RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER
+#RUN sudo usermod -a -G docker $USER && \
+    #sudo service docker start && \
+    #sudo service docker enable && \
+   # sudo service docker restart && \
+   # sudo su && \
+   # echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers
     
 CMD ["/usr/sbin/sshd", "-D"]
