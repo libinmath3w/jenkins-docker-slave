@@ -11,7 +11,12 @@ RUN apt-get update && \
     apt-get install -qy default-jdk && \
 # Install podman
     apt update &&\
-    apt-get install -qy podman && \    
+    apt-get install -qy podman && \  
+# Install docker
+    apt update &&\
+    apt-get install -qy docker && \
+# Install sudo
+    apt-get install -qy sudo && \   
 # Install maven
     apt-get install -qy maven && \
 # Cleanup old packages
