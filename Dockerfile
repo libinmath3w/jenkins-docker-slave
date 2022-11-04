@@ -35,11 +35,11 @@ COPY .ssh/authorized_keys /home/jenkins/.ssh/authorized_keys
 
 RUN chown -R jenkins:jenkins /home/jenkins/.m2/ && \
     chown -R jenkins:jenkins /home/jenkins/.ssh/
-
-RUN sudo service docker start  && \
-    sudo service docker enable
     
 # Standard SSH port
 EXPOSE 22
 
+CMD sudo service docker start
+CMD sudo service docker enable
+    
 CMD ["/usr/sbin/sshd", "-D"]
