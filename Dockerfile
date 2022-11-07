@@ -33,7 +33,7 @@ RUN apt-get update && \
 
 # Copy authorized keys
 COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
-
+RUN jenkins:x:1000:1000:joesam:/home/ubuntu:/bin/bash
 #RUN chown -R jenkins:jenkins /home/ubuntu/ && \
   #  chown -R jenkins:jenkins /home/ubuntu/.ssh/ 
     
@@ -49,7 +49,7 @@ RUN service ssh start
    # sudo service docker restart && \
    # sudo su && \
    
-#RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
+RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 WORKDIR /home/ubuntu    
 #CMD ["/usr/sbin/sshd", "-D"]
