@@ -33,7 +33,7 @@ RUN apt-get update && \
 
 # Copy authorized keys
 COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
-RUN jenkins:x:1000:1000:joesam:/home/ubuntu:/bin/bash
+
 #RUN chown -R jenkins:jenkins /home/ubuntu/ && \
   #  chown -R jenkins:jenkins /home/ubuntu/.ssh/ 
     
