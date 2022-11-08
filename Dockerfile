@@ -44,7 +44,9 @@ RUN mkdir /.docker && \
     mkdir /.config
 RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
-    chmod 777 -R /.config
+    chmod 777 -R /.config 
+RUN mount --make-rshared /
+
 RUN service ssh start
 #RUN echo $USER
 #RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER
