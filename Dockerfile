@@ -39,6 +39,8 @@ COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
     
 # Standard SSH port
 EXPOSE 22
+RUN mkdir /.local
+RUN mkdir /.docker
 RUN service ssh start
 #RUN echo $USER
 #RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER
@@ -49,8 +51,6 @@ RUN service ssh start
     #sudo service docker enable && \
    # sudo service docker restart && \
    # sudo su && \
-RUN mkdir /.local
-RUN mkdir /.docker
 RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 WORKDIR /home/ubuntu  
