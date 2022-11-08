@@ -45,7 +45,7 @@ RUN mkdir /.docker && \
 RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
     chmod 777 -R /.config 
-RUN mount --make-rshared /
+RUN sudo mount --make-rshared /
 
 RUN service ssh start
 #RUN echo $USER
