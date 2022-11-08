@@ -42,7 +42,7 @@ EXPOSE 22
 RUN mkdir /.local
 RUN mkdir /.docker
 RUN chmod 777 -R /.docker && \
-    chmod 777 -R mkdir /.local
+    chmod 777 -R /.local
 RUN service ssh start
 #RUN echo $USER
 #RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER
