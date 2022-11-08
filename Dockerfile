@@ -71,5 +71,4 @@ RUN service ssh start
 RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 WORKDIR /home/ubuntu  
-RUN sudo chmod 666 /var/run/docker.sock
 #CMD ["/usr/sbin/sshd", "-D"]
