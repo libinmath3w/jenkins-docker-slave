@@ -49,10 +49,14 @@ COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
 EXPOSE 22
 RUN mkdir /.local
 RUN mkdir /.docker && \
-    mkdir /.config
+    mkdir /.config && \
+    mkdir /.cache
+    
 RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
-    chmod 777 -R /.config 
+    chmod 777 -R /.config && \
+    chmod 777 -R /.cache
+    
 USER root     
 RUN sudo chmod 777 -R /usr/bin/mount
 #RUN sudo mount --make-rshared /
