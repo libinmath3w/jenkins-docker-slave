@@ -27,11 +27,7 @@ RUN apt-get update && \
     apt-get install -qy maven && \
 # Cleanup old packages
     apt-get -qy autoremove && \
-
-# Install grype 
-    curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin && \
-# install syft
-    curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin && \
+    
 # Add user jenkins to the image
     #adduser --quiet jenkins && \
     useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 1000 jenkins && \
@@ -39,6 +35,10 @@ RUN apt-get update && \
     echo "jenkins:MyPassword123" | chpasswd 
     #mkdir /home/jenkins/.m2
 
+# Install grype 
+  RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+# install syft
+  RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 # Copy authorized keys
 COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
 
@@ -53,8 +53,9 @@ RUN mkdir /.docker && \
 RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
     chmod 777 -R /.config 
+USER root     
 RUN sudo chmod 777 -R /usr/bin/mount
-#RUN sudo mount --make-rshared /
+RUN sudo mount --make-rshared /
 RUN sudo chmod 666 /var/run/docker.sock
 
 RUN service ssh start
