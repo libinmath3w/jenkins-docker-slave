@@ -45,7 +45,8 @@ RUN mkdir /.docker && \
 RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
     chmod 777 -R /.config 
-RUN sudo su    
+RUN sudo chmod 777 -R /usr/bin/mount && \
+    sudo chmod 777 -R /usr/share/man/man8/mount.8.gz
 RUN sudo mount --make-rshared /
 RUN sudo chmod 666 /var/run/docker.sock
 
