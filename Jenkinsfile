@@ -19,7 +19,7 @@ agent { dockerfile true }
         }
         stage('Podman Build') {
             steps{
-                    sh "docker build . -t harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG}"
+                    sh "podman build . -t harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG}"
             }
         }
     } 
