@@ -56,7 +56,7 @@ RUN chmod 777 -R /.docker && \
 USER root     
 RUN sudo chmod 777 -R /usr/bin/mount
 #RUN sudo mount --make-rshared /
-RUN sudo chmod 666 /var/run/docker.sock
+#RUN sudo chmod 666 /var/run/docker.sock
 
 RUN service ssh start
 #RUN echo $USER
@@ -71,5 +71,5 @@ RUN service ssh start
 RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 WORKDIR /home/ubuntu  
-
+RUN sudo chmod 666 /var/run/docker.sock
 #CMD ["/usr/sbin/sshd", "-D"]
