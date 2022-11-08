@@ -42,8 +42,8 @@ EXPOSE 22
 RUN service ssh start
 #RUN echo $USER
 #RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER
-#RUN sudo usermod -a -G docker jenkins
-#RUN sudo usermod -a -G sudo jenkins
+RUN sudo usermod -a -G docker jenkins wheel
+RUN sudo usermod -a -G sudo jenkins wheel
     #sudo service docker start && \
     #sudo service docker enable && \
    # sudo service docker restart && \
