@@ -55,7 +55,7 @@ RUN chmod 777 -R /.docker && \
     chmod 777 -R /.config 
 USER root     
 RUN sudo chmod 777 -R /usr/bin/mount
-RUN sudo mount --make-rshared /
+#RUN sudo mount --make-rshared /
 RUN sudo chmod 666 /var/run/docker.sock
 
 RUN service ssh start
