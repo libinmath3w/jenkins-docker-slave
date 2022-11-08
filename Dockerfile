@@ -2,7 +2,12 @@ FROM ubuntu:22.04
 RUN echo $USER
 # Make sure the package repository is up to date.
 RUN apt-get update && \
+# Install sudo
+    apt-get install -qy sudo && \  
+# Install git
     apt-get install -qy git && \
+# install curl
+    apt-get install -qy curl && \
 # Install a basic SSH server
     apt-get install -qy openssh-server && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
@@ -18,8 +23,6 @@ RUN apt-get update && \
    # sudo groupadd docker && \
    # sudo usermod -aG docker $USER && \
    # docker --version && \
-# Install sudo
-    apt-get install -qy sudo && \   
 # Install maven
     apt-get install -qy maven && \
 # Cleanup old packages
