@@ -40,9 +40,11 @@ COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
 # Standard SSH port
 EXPOSE 22
 RUN mkdir /.local
-RUN mkdir /.docker
+RUN mkdir /.docker && \
+    mkdir /.config
 RUN chmod 777 -R /.docker && \
-    chmod 777 -R /.local
+    chmod 777 -R /.local && \
+    chmod 777 -R /.config
 RUN service ssh start
 #RUN echo $USER
 #RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER
