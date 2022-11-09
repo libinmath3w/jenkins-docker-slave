@@ -24,6 +24,7 @@ agent {
         }
         stage('Podman Build') {
             steps{
+                    sh 'sudo chmod 777 /var/run/docker.sock'
                     sh "docker build . -t  harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG}"
             }
         }
