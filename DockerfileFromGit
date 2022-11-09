@@ -62,7 +62,7 @@ RUN chmod 777 -R /.docker && \
     #sudo adduser $USER docker && \
     #newgrp docker
 RUN sudo usermod -aG docker ${USER} && \
-    su - ${USER} && \
+    su - ${USER} 
     #sudo usermod -aG docker ubuntu
     
 USER root     
