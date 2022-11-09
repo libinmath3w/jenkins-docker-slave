@@ -63,7 +63,7 @@ RUN chmod 777 -R /.docker && \
     #newgrp docker
 RUN sudo usermod -aG docker ${USER} && \
     su - ${USER} && \
-    sudo usermod -aG docker ubuntu
+    #sudo usermod -aG docker ubuntu
     
 USER root     
 RUN sudo chmod 777 -R /usr/bin/mount
