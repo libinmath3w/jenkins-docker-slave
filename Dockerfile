@@ -50,14 +50,13 @@ EXPOSE 22
 RUN mkdir /.local
 RUN mkdir /.docker && \
     mkdir /.config && \
-    sudo service docker start && \
     mkdir /.cache
     
 RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
     chmod 777 -R /.config && \
     chmod 777 -R /.cache && \
-    sudo chmod 777 -R /var/run/docker.sock
+    
     
 USER root     
 RUN sudo chmod 777 -R /usr/bin/mount
