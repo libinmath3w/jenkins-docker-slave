@@ -61,8 +61,7 @@ RUN chmod 777 -R /.docker && \
     sudo chmod 777 /var/run/docker.sock
     
 #Docker issue fix
-RUN sudo addgroup --system docker && \
-    sudo adduser jenkins docker && \
+RUN sudo adduser jenkins docker && \
     #newgrp docker
     
     
