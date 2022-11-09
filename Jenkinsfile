@@ -23,8 +23,31 @@ agent {
         }
         stage('Podman Build') {
             steps{
-                    sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock'
                     sh "docker build . -t  harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG}"
+            }
+        }
+      stage('Grype Check Sbom') {
+            steps {
+                    sh 'grype harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG} --scope AllLayers'
+                    // grype with critical fail exit
+                    //sh 'grype harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG} --scope AllLayers --fail-on=critical'
+            }
+        }
+        
+           stage('Syft Check Sbom') {
+            steps{
+                   sh "syft packages harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG}"
+            }
+        }
+        
+         stage('Podman push') {
+            steps{
+                withCredentials([string(credentialsId: 'harbor-pass', variable: 'harborpwd')]) {
+                    sh "docker login harbor.intrastream.cyou -u demo -p ${harborpwd}"
+                }
+              // sh "podman push --tls-verify=false harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG}"
+              sh "docker push harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG}"
+               
             }
         }
     } 
