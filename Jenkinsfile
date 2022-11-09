@@ -22,7 +22,8 @@ agent {
         }
         stage('Podman Build') {
             steps{
-                    sh "docker build . -t -v /var/run/docker.sock:/var/run/docker.sock harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG}"
+                    sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock'
+                    sh "docker build . -t  harbor.intrastream.cyou/hello-world-java/hello-java:${DOCKER_TAG}"
             }
         }
     } 
