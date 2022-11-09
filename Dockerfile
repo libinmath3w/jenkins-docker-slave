@@ -56,6 +56,7 @@ RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
     chmod 777 -R /.config && \
     chmod 777 -R /.cache && \
+    sudo service docker start && \
     sudo chmod -x /var/run/docker.sock
     
 USER root     
