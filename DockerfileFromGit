@@ -60,8 +60,7 @@ RUN chmod 777 -R /.docker && \
 #Docker issue fix
 RUN sudo addgroup --system docker && \
     sudo adduser $USER docker && \
-    newgrp docker && \
-    sudo setfacl -m "g:docker:rw" 
+    newgrp docker
     
 USER root     
 RUN sudo chmod 777 -R /usr/bin/mount
