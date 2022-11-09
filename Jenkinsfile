@@ -1,6 +1,9 @@
 
 pipeline {
-agent { dockerfile true }
+agent { 
+  dockerfile true 
+  args ' -v /var/run/docker.sock:/var/run/docker.sock'
+}
   
         environment {
         DOCKER_TAG = getVersion()
