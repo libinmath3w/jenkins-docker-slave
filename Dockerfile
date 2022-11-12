@@ -1,32 +1,32 @@
-FROM ubuntu:22.04
+FROM ubi8:latest
 RUN echo $USER
 # Make sure the package repository is up to date.
-RUN apt-get update && \
+RUN yum update && \
 # Install sudo
-    apt-get install -qy sudo && \  
+    yum install -qy sudo && \  
 # Install git
-    apt-get install -qy git && \
+    yum install -qy git && \
 # install curl
-    apt-get install -qy curl && \
+    yum install -qy curl && \
 # Install a basic SSH server
-    apt-get install -qy openssh-server && \
+    yum install -qy openssh-server && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
     mkdir -p /var/run/sshd && \
 # Install JDK 11
-    apt-get install -qy default-jdk && \
+    yum install -qy default-jdk && \
 # Install podman
     apt update &&\
-    apt-get install -qy podman && \  
+    yum install -qy podman && \  
 # Install docker
-    apt-get update &&\
-    apt-get install -qy docker.io && \
+    yum update &&\
+    yum install -qy docker.io && \
    # sudo groupadd docker && \
    # sudo usermod -aG docker $USER && \
    # docker --version && \
 # Install maven
-    apt-get install -qy maven && \
+    yum install -qy maven && \
 # Cleanup old packages
-    apt-get -qy autoremove && \
+    yum -qy autoremove && \
     
 # Add user jenkins to the image
     #adduser --quiet jenkins && \
