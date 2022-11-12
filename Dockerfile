@@ -19,7 +19,7 @@ RUN yum update -qy && \
     yum install -qy podman && \  
 # Install docker
     yum update -qy && \
-    yum install -qy docker.io && \
+    yum install -qy docker && \
    # sudo groupadd docker && \
    # sudo usermod -aG docker $USER && \
    # docker --version && \
