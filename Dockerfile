@@ -1,7 +1,7 @@
 FROM redhat/ubi8:latest
 RUN echo $USER
 # Make sure the package repository is up to date.
-RUN yum update && \
+RUN yum update -qy && \
 # Install sudo
     yum install -qy sudo && \  
 # Install git
@@ -15,10 +15,10 @@ RUN yum update && \
 # Install JDK 11
     yum install -qy default-jdk && \
 # Install podman
-    yum update && \
+    yum update -qy && \
     yum install -qy podman && \  
 # Install docker
-    yum update && \
+    yum update -qy && \
     yum install -qy docker.io && \
    # sudo groupadd docker && \
    # sudo usermod -aG docker $USER && \
