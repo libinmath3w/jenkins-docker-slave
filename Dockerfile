@@ -13,7 +13,7 @@ RUN yum update -qy && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
     mkdir -p /var/run/sshd && \
 # Install JDK 11
-    yum install -qy default-jdk && \
+    yum install -qy java-11-openjdk && \
 # Install podman
     yum update -qy && \
     yum install -qy podman && \  
