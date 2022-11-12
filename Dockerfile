@@ -48,7 +48,7 @@ COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
 # Standard SSH port
 EXPOSE 22
 RUN mkdir /.local && \
-    mkdir /.docker && \
+  # mkdir /.docker && \
     mkdir /.config && \
     mkdir /.cache \
     
