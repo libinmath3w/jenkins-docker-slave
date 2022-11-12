@@ -32,7 +32,7 @@ RUN yum update -qy && \
     #adduser --quiet jenkins && \
     useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 1000 jenkins && \
 # Set password for the jenkins user (you may want to alter this).
-    echo "jenkins:MyPassword123" | chpasswd 
+    echo "jenkins:MyPassword123" | chpasswd \
     #mkdir /home/jenkins/.m2
 
 # Install grype 
@@ -50,12 +50,12 @@ EXPOSE 22
 RUN mkdir /.local && \
     mkdir /.docker && \
     mkdir /.config && \
-    mkdir /.cache
+    mkdir /.cache \
     
 RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
     chmod 777 -R /.config && \
-    chmod 777 -R /.cache 
+    chmod 777 -R /.cache \
     
     
 USER root     
