@@ -52,14 +52,14 @@ RUN mkdir /.local && \
     mkdir /.config && \
     mkdir /.cache \
     
-RUN chmod 777 -R /.docker && \
-    chmod 777 -R /.local && \
-    chmod 777 -R /.config && \
-    chmod 777 -R /.cache 
+RUN chmod 777 -r /.docker && \
+    chmod 777 -r /.local && \
+    chmod 777 -r /.config && \
+    chmod 777 -r /.cache 
     
     
 USER root     
-RUN sudo chmod 777 -R /usr/bin/mount
+RUN sudo chmod 777 -r /usr/bin/mount
 #RUN sudo mount --make-rshared /
 #RUN sudo chmod 666 /var/run/docker.sock
 
