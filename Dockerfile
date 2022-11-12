@@ -1,4 +1,4 @@
-FROM docker.io/ubi8:latest
+FROM ubi8:latest
 RUN echo $USER
 # Make sure the package repository is up to date.
 RUN yum update && \
@@ -15,10 +15,10 @@ RUN yum update && \
 # Install JDK 11
     yum install -qy default-jdk && \
 # Install podman
-    apt update &&\
+    yum update && \
     yum install -qy podman && \  
 # Install docker
-    yum update &&\
+    yum update && \
     yum install -qy docker.io && \
    # sudo groupadd docker && \
    # sudo usermod -aG docker $USER && \
@@ -36,9 +36,9 @@ RUN yum update && \
     #mkdir /home/jenkins/.m2
 
 # Install grype 
-  RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 # install syft
-  RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 # Copy authorized keys
 COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
 
@@ -47,8 +47,8 @@ COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
     
 # Standard SSH port
 EXPOSE 22
-RUN mkdir /.local
-RUN mkdir /.docker && \
+RUN mkdir /.local && \
+    mkdir /.docker && \
     mkdir /.config && \
     mkdir /.cache
     
