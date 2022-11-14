@@ -93,7 +93,7 @@ RUN chmod 777 /.docker && \
     chmod 777 /.config && \
     chmod 777 /.cache 
     
-#RUN echo 'driver = "fuse-overlayfs"' >> /usr/share/containers/storage.conf 
-#RUN echo 'graphroot = "/home/podman/.local/share/containers/storage"' >> /usr/share/containers/storage.conf 
+RUN echo 'driver = "fuse-overlayfs"' >> /usr/share/containers/storage.conf 
+RUN echo 'graphroot = "/home/podman/.local/share/containers/storage"' >> /usr/share/containers/storage.conf 
 
 ENV _CONTAINERS_USERNS_CONFIGURED=""
