@@ -1,5 +1,4 @@
 FROM redhat/ubi8:latest
-RUN echo $USER
 # Make sure the package repository is up to date.
 RUN yum update -qy && \
 # Install sudo
@@ -17,12 +16,8 @@ RUN yum update -qy && \
 # Install podman
     yum update -qy && \
     yum install -qy podman && \  
-# Install docker
-    yum update -qy && \
-    yum install -qy docker && \
-   # sudo groupadd docker && \
-   # sudo usermod -aG docker $USER && \
-   # docker --version && \
+
+
 # Install maven
     yum install -qy maven && \
 # Cleanup old packages
