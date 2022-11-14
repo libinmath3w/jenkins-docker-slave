@@ -1,79 +1,94 @@
-FROM ubuntu:22.04
-RUN echo $USER
-# Make sure the package repository is up to date.
-RUN apt-get update && \
+# stable/Containerfile
+#
+# Build a Podman container image from the latest
+# stable version of Podman on the Fedoras Updates System.
+# https://bodhi.fedoraproject.org/updates/?search=podman
+# This image can be used to create a secured container
+# that runs safely with privileges within the container.
+#
+FROM redhat/ubi8:latest
+
+# Don't include container-selinux and remove
+# directories used by dnf that are just taking
+# up space.
+# TODO: rpm --setcaps... needed due to Fedora (base) image builds
+#       being (maybe still?) affected by
+#       https://bugzilla.redhat.com/show_bug.cgi?id=1995337#c3
+RUN dnf -y update && \
+    rpm --setcaps shadow-utils 2>/dev/null && \
+    dnf -y install podman fuse-overlayfs \
+        --exclude container-selinux && \
+    dnf clean all && \
+    rm -rf /var/cache /var/log/dnf* /var/log/yum.*
+
+RUN yum update -qy && \
 # Install sudo
-    apt-get install -qy sudo && \  
+    yum install -qy sudo && \  
 # Install git
-    apt-get install -qy git && \
+    yum install -qy git && \
 # install curl
-    apt-get install -qy curl && \
+    yum install -qy curl && \
 # Install a basic SSH server
-    apt-get install -qy openssh-server && \
+    yum install -qy openssh-server && \
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd && \
     mkdir -p /var/run/sshd && \
 # Install JDK 11
-    apt-get install -qy default-jdk && \
-# Install podman
-    apt update &&\
-    apt-get install -qy podman && \  
-# Install docker
-    apt-get update &&\
-    apt-get install -qy docker.io && \
-   # sudo groupadd docker && \
-   # sudo usermod -aG docker $USER && \
-   # docker --version && \
+    yum install -qy java-11-openjdk && \
+
 # Install maven
-    apt-get install -qy maven && \
+    yum install -qy maven && \
 # Cleanup old packages
-    apt-get -qy autoremove && \
+    yum -qy autoremove 
     
-# Add user jenkins to the image
-    #adduser --quiet jenkins && \
-    useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 1000 jenkins && \
-# Set password for the jenkins user (you may want to alter this).
-    echo "jenkins:MyPassword123" | chpasswd 
-    #mkdir /home/jenkins/.m2
-
-# Install grype 
-  RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+    # Install grype 
+RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 # install syft
-  RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
-# Copy authorized keys
-COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
+RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
-#RUN chown -R jenkins:jenkins /home/ubuntu/ && \
-  #  chown -R jenkins:jenkins /home/ubuntu/.ssh/ 
     
-# Standard SSH port
-EXPOSE 22
-RUN mkdir /.local
-RUN mkdir /.docker && \
+    
+RUN useradd podman; \
+echo -e "podman:1:999\npodman:1001:64535" > /etc/subuid; \
+echo -e "podman:1:999\npodman:1001:64535" > /etc/subgid;
+
+ARG _REPO_URL="https://raw.githubusercontent.com/containers/podman/main/contrib/podmanimage/stable"
+ADD $_REPO_URL/containers.conf /etc/containers/containers.conf
+ADD $_REPO_URL/podman-containers.conf /home/podman/.config/containers/containers.conf
+
+RUN mkdir -p /home/podman/.local/share/containers && \
+    chown podman:podman -R /home/podman && \
+    chmod 644 /etc/containers/containers.conf
+
+# Copy & modify the defaults to provide reference if runtime changes needed.
+# Changes here are required for running with fuse-overlay storage inside container.
+RUN sed -e 's|^#mount_program|mount_program|g' \
+           -e '/additionalimage.*/a "/var/lib/shared",' \
+           -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' \
+           /usr/share/containers/storage.conf \
+           > /etc/containers/storage.conf
+
+# Note VOLUME options must always happen after the chown call above
+# RUN commands can not modify existing volumes
+VOLUME /var/lib/containers
+VOLUME /home/podman/.local/share/containers
+
+RUN mkdir -p /var/lib/shared/overlay-images \
+             /var/lib/shared/overlay-layers \
+             /var/lib/shared/vfs-images \
+             /var/lib/shared/vfs-layers && \
+    touch /var/lib/shared/overlay-images/images.lock && \
+    touch /var/lib/shared/overlay-layers/layers.lock && \
+    touch /var/lib/shared/vfs-images/images.lock && \
+    touch /var/lib/shared/vfs-layers/layers.lock
+    
+RUN mkdir /.local && \
+  # mkdir /.docker && \
     mkdir /.config && \
-    mkdir /.cache
+    mkdir /.cache \
     
-RUN chmod 777 -R /.docker && \
-    chmod 777 -R /.local && \
-    chmod 777 -R /.config && \
-    chmod 777 -R /.cache && \
-    
-    
-USER root     
-RUN sudo chmod 777 -R /usr/bin/mount
-#RUN sudo mount --make-rshared /
-#RUN sudo chmod 666 /var/run/docker.sock
+RUN chmod 777 /.docker && \
+    chmod 777 /.local && \
+    chmod 777 /.config && \
+    chmod 777 /.cache 
 
-RUN service ssh start
-#RUN echo $USER
-#RUN sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 $USER
-#RUN sudo usermod -a -G docker jenkins wheel
-#RUN sudo usermod -a -G sudo jenkins wheel
-
-    #sudo service docker start && \
-    #sudo service docker enable && \
-   # sudo service docker restart && \
-   # sudo su && \
-RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
-RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-WORKDIR /home/ubuntu  
-#CMD ["/usr/sbin/sshd", "-D"]
+ENV _CONTAINERS_USERNS_CONFIGURED=""
