@@ -97,5 +97,9 @@ RUN chmod 777 /.docker && \
     chmod 777 /.config && \
     chmod 777 /.cache 
     
+ARG _REPO_URL="https://raw.githubusercontent.com/libinmath3w/jenkins-docker-slave/main"
+ADD $_REPO_URL/storage.conf /etc/containers/storage.conf
+ADD $_REPO_URL/storage.conf /usr/share/containers/storage.conf
+
 
 ENV _CONTAINERS_USERNS_CONFIGURED=""
