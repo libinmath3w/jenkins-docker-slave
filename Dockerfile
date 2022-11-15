@@ -58,7 +58,12 @@ ADD $_REPO_URL/podman-containers.conf /home/podman/.config/containers/containers
 RUN mkdir -p /home/podman/.local/share/containers && \
     chown podman:podman -R /home/podman && \
     chmod 644 /etc/containers/containers.conf && \
-    touch /usr/share/containers/storage.conf
+    touch /usr/share/containers/storage.conf && \
+    chmod 777 /usr/share/containers/storage.conf
+    
+RUN echo "[storage]" >> /usr/share/containers/storage.conf 
+RUN echo '   driver = "fuse-overlayfs"' >> /usr/share/containers/storage.conf 
+RUN echo '   graphroot = "/home/podman/.local/share/containers"' >> /usr/share/containers/storage.conf    
     
 
 # Copy & modify the defaults to provide reference if runtime changes needed.
@@ -73,11 +78,8 @@ RUN sed -i -e 's|^#mount_program|mount_program|g' \
 # RUN commands can not modify existing volumes
 VOLUME /var/lib/containers
 VOLUME /home/podman/.local/share/containers
-RUN echo "[storage]" >> /usr/share/containers/storage.conf 
-RUN echo 'driver = "fuse-overlayfs"' >> /usr/share/containers/storage.conf 
-RUN echo 'graphroot = "/home/podman/.local/share/containers"' >> /usr/share/containers/storage.conf 
-RUN echo "[storage.options]" >> /usr/share/containers/storage.conf 
-RUN echo 'mount_program = "/bin/fuse-overlayfs"' >> /usr/share/containers/storage.conf 
+#RUN echo "[storage.options]" >> /usr/share/containers/storage.conf 
+#RUN echo 'mount_program = "/bin/fuse-overlayfs"' >> /usr/share/containers/storage.conf 
 
 RUN mkdir -p /var/lib/shared/overlay-images \
              /var/lib/shared/overlay-layers \
