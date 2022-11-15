@@ -59,13 +59,9 @@ RUN mkdir -p /home/podman/.local/share/containers && \
     chown podman:podman -R /home/podman && \
     chmod 644 /etc/containers/containers.conf && \
     touch /usr/share/containers/storage.conf 
+   
     
-RUN chmod 777 /usr/share/containers/storage.conf
-    
-RUN echo "[storage]" >> /usr/share/containers/storage.conf 
-RUN echo '   driver = "fuse-overlayfs"' >> /usr/share/containers/storage.conf
-RUN echo '   graphroot = "/home/podman/.local/share/containers"' >> /usr/share/containers/storage.conf   
-    
+ RUN sudo chmod 777 /usr/share/containers/storage.conf   
 
 # Copy & modify the defaults to provide reference if runtime changes needed.
 # Changes here are required for running with fuse-overlay storage inside container.
@@ -101,5 +97,8 @@ RUN chmod 777 /.docker && \
     chmod 777 /.config && \
     chmod 777 /.cache 
     
+RUN echo "[storage]" >> /usr/share/containers/storage.conf 
+RUN echo '   driver = "fuse-overlayfs"' >> /usr/share/containers/storage.conf
+RUN echo '   graphroot = "/home/podman/.local/share/containers"' >> /usr/share/containers/storage.conf  
 
 ENV _CONTAINERS_USERNS_CONFIGURED=""
