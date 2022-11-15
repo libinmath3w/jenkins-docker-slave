@@ -58,12 +58,13 @@ ADD $_REPO_URL/podman-containers.conf /home/podman/.config/containers/containers
 RUN mkdir -p /home/podman/.local/share/containers && \
     chown podman:podman -R /home/podman && \
     chmod 644 /etc/containers/containers.conf && \
-    touch /usr/share/containers/storage.conf && \
-    chmod 777 /usr/share/containers/storage.conf
+    touch /usr/share/containers/storage.conf 
+    
+RUN chmod 777 /usr/share/containers/storage.conf
     
 RUN echo "[storage]" >> /usr/share/containers/storage.conf 
-RUN echo '   driver = "fuse-overlayfs"' >> /usr/share/containers/storage.conf 
-RUN echo '   graphroot = "/home/podman/.local/share/containers"' >> /usr/share/containers/storage.conf    
+RUN echo '   driver = "fuse-overlayfs"' >> /usr/share/containers/storage.conf
+RUN echo '   graphroot = "/home/podman/.local/share/containers"' >> /usr/share/containers/storage.conf   
     
 
 # Copy & modify the defaults to provide reference if runtime changes needed.
