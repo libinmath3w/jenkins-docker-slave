@@ -42,31 +42,25 @@ RUN yum update -qy && \
 # Cleanup old packages
     yum -qy autoremove 
     
-    # Install grype 
+# Install grype 
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 # install syft
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
-
     
-    
+# user created    
 RUN useradd podman; \
 echo -e "podman:1:999\npodman:1001:64535" > /etc/subuid; \
 echo -e "podman:1:999\npodman:1001:64535" > /etc/subgid;
 
-ARG _REPO_URL="https://raw.githubusercontent.com/containers/podman/main/contrib/podmanimage/stable"
+ARG _REPO_URL="https://raw.githubusercontent.com/libinmath3w/jenkins-docker-slave/main"
 ADD $_REPO_URL/containers.conf /etc/containers/containers.conf
 ADD $_REPO_URL/podman-containers.conf /home/podman/.config/containers/containers.conf
+ADD $_REPO_URL/storage.conf /usr/share/containers/storage.conf
 
 RUN mkdir -p /home/podman/.local/share/containers && \
     chown podman:podman -R /home/podman && \
-    chmod 644 /etc/containers/containers.conf && \
-    nano /usr/share/containers/storage.conf 
-   
+    chmod 644 /etc/containers/containers.conf 
     
-RUN sudo chmod 777 /usr/share/containers/storage.conf   
-RUN echo "[storage]" >> /usr/share/containers/storage.conf 
-RUN echo '   driver = "fuse-overlayfs"' >> /usr/share/containers/storage.conf
-RUN echo '   graphroot = "/home/podman/.local/share/containers"' >> /usr/share/containers/storage.conf  
 
 # Copy & modify the defaults to provide reference if runtime changes needed.
 # Changes here are required for running with fuse-overlay storage inside container.
