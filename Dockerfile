@@ -6,8 +6,8 @@
 # This image can be used to create a secured container
 # that runs safely with privileges within the container.
 #
-FROM redhat/ubi8:latest
-
+# FROM redhat/ubi8:latest
+FROM registry.fedoraproject.org/fedora:latest
 # Don't include container-selinux and remove
 # directories used by dnf that are just taking
 # up space.
