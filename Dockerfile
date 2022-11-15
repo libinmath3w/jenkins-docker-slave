@@ -55,7 +55,7 @@ echo -e "podman:1:999\npodman:1001:64535" > /etc/subgid;
 ARG _REPO_URL="https://raw.githubusercontent.com/libinmath3w/jenkins-docker-slave/main"
 ADD $_REPO_URL/containers.conf /etc/containers/containers.conf
 ADD $_REPO_URL/podman-containers.conf /home/podman/.config/containers/containers.conf
-ADD $_REPO_URL/storage.conf /usr/share/containers/storage.conf
+ADD $_REPO_URL/storage.conf /etc/containers/storage.conf
 
 RUN mkdir -p /home/podman/.local/share/containers && \
     chown podman:podman -R /home/podman && \
