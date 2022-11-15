@@ -25,7 +25,9 @@ RUN yum update -qy && \
 # Install sudo
     yum install -qy sudo && \  
 # Install nano
-    yum install -qy nano && \  
+    yum install -qy nano && \ 
+# Install runc    
+    yum install -y runc && \
 # Install git
     yum install -qy git && \
 # install curl
