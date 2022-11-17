@@ -57,7 +57,7 @@ RUN mkdir /.docker && \
 RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
     chmod 777 -R /.config && \
-    chmod 777 -R /.cache && \
+    chmod 777 -R /.cache 
     
     
 USER root     
