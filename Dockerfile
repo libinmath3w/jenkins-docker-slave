@@ -34,8 +34,10 @@ RUN apt-get update && \
 # Set password for the jenkins user (you may want to alter this).
     echo "jenkins:MyPassword123" | chpasswd 
     #mkdir /home/jenkins/.m2
-  RUN  echo -e "jenkins:100000:65536" > /etc/subuid; \
-       echo -e "jenkins:100000:65536" > /etc/subgid;
+  RUN  echo -e "jenkins:165536:65536" > /etc/subuid; \
+       echo -e "jenkins:165536:65536" > /etc/subgid;
+   RUN  echo -e "root:165536:65536" > /etc/subuid; \
+       echo -e "root:165536:65536" > /etc/subgid;     
        
 # Install grype 
   RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
@@ -75,7 +77,7 @@ RUN service ssh start
     #sudo service docker enable && \
    # sudo service docker restart && \
    # sudo su && \
-RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
+#RUN echo  "jenkins   ALL=(ALL:ALL) ALL" >> /etc/sudoers 
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 WORKDIR /home/ubuntu  
 #CMD ["/usr/sbin/sshd", "-D"]
