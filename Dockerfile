@@ -34,13 +34,15 @@ RUN apt-get update && \
 # Set password for the jenkins user (you may want to alter this).
     echo "jenkins:MyPassword123" | chpasswd 
     #mkdir /home/jenkins/.m2
-
+  RUN  echo -e "jenkins:1:999\njenkins:1001:94535" > /etc/subuid; \
+       echo -e "jenkins:1:999\njenkins:1001:94535" > /etc/subgid;
+       
 # Install grype 
   RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 # install syft
   RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 # Copy authorized keys
-COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
+  COPY .ssh/authorized_keys /home/ubuntu/.ssh/authorized_keys
 
 #RUN chown -R jenkins:jenkins /home/ubuntu/ && \
   #  chown -R jenkins:jenkins /home/ubuntu/.ssh/ 
