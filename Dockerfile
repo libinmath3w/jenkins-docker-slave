@@ -34,10 +34,12 @@ RUN apt-get update && \
 # Set password for the jenkins user (you may want to alter this).
     echo "jenkins:MyPassword123" | chpasswd 
     #mkdir /home/jenkins/.m2
-  RUN  echo -e "jenkins:165536:65536" > /etc/subuid; \
+   RUN echo -e "jenkins:165536:65536" > /etc/subuid; \
        echo -e "jenkins:165536:65536" > /etc/subgid;
-   RUN  echo -e "root:165536:65536" > /etc/subuid; \
-       echo -e "root:165536:65536" > /etc/subgid;     
+   RUN echo -e "root:165536:65536" > /etc/subuid; \
+       echo -e "root:165536:65536" > /etc/subgid;  
+   RUN echo -e "jenkins:*::" > /etc/gshadow;
+      
        
 # Install grype 
   RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
