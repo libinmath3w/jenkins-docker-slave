@@ -62,8 +62,15 @@ RUN chmod 777 -R /.docker && \
     chmod 777 -R /.local && \
     chmod 777 -R /.config && \
     chmod 777 -R /.cache 
-    
-    
+RUN mkdir -p /etc/docker/certs.d/harbor.intrastream.cyou
+ARG _REPO_URL="https://raw.githubusercontent.com/libinmath3w/jenkins-docker-slave/main"
+ADD $_REPO_URL/ca.crt /etc/docker/certs.d/harbor.intrastream.cyou/ca.crt
+RUN mkdir -p ~/.docker/tls/harbor.intrastream.cyou\:4443/
+RUN  cp /etc/docker/certs.d/harbor.intrastream.cyou/ca.crt  ~/.docker/tls/harbor.intrastream.cyou\:4443/
+RUN  cp /etc/docker/certs.d/harbor.intrastream.cyou/ca.crt /usr/local/share/ca-certificates/
+RUN  update-ca-certificates
+
+
 USER root     
 RUN sudo chmod 777 -R /usr/bin/mount
 #RUN sudo mount --make-rshared /
