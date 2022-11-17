@@ -51,8 +51,9 @@ RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | 
     
 # user created    
 RUN useradd podman; \
-echo -e "podman:1:999\npodman:1001:64535" > /etc/subuid; \
-echo -e "podman:1:999\npodman:1001:64535" > /etc/subgid;
+    echo -e "podman:1:999\npodman:1001:64535" > /etc/subuid; \
+    echo -e "podman:1:999\npodman:1001:64535" > /etc/subgid;
+RUN echo "podman:MyPassword123" | chpasswd 
 
 ARG _REPO_URL="https://raw.githubusercontent.com/libinmath3w/jenkins-docker-slave/main"
 ADD $_REPO_URL/containers.conf /etc/containers/containers.conf
